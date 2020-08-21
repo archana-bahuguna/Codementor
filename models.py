@@ -67,7 +67,7 @@ def db_init():
     #Using drop_all temporarily to prevent integrity error between
     #subsequent runs. If db_init is not called this can be removed.
     #this can also be called at the end of this fn
-    #db.drop_all()
+    db.drop_all()
     #import pdb; pdb.set_trace()
     db.create_all()
 

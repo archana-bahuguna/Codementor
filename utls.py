@@ -41,7 +41,7 @@ def display_tables():
     """ Displays db table entries after processing request """
     prompt = '__________________________________________\n'\
              'To view tables enter Yes/yes/y/No/no/n:'
-    #i = raw_input(prompt)
+    i = raw_input(prompt)
     i = "yes"
     if i.lower() in ('yes','y'):
         import os

@@ -29,6 +29,8 @@ api = Api(app)
 
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
+import pdb; pdb.set_trace()
+
 class InvalidUsageException(Exception):
     """ Handles exceptions not caught by framework and sends response
     """
@@ -74,9 +76,10 @@ class UserIdeasAPI(Resource):
                                    location='json')
         super(UserIdeasAPI, self).__init__()
 
+        import pdb; pdb.set_trace()
 
     # GET /user/ideas
-    @basic_auth.required
+#    @basic_auth.required
     def get(self):
         """Get all ideas"""
 
@@ -192,6 +195,7 @@ class UserIdeaAPI(Resource):
         logs.debug_ ("_________________________________________________")
         logs.debug_ ("IdeaAPI get fn: %s" %(request))
 
+        import pdb; pdb.set_trace()
         # Check if user is auth to get details of this idea
         userid, username = utls.get_user_from_hdr()
         query_obj = models.Idea.query.filter_by(ideaid=ideaid).first()
@@ -392,8 +396,8 @@ class UsersAPI(Resource):
             models.db.session.commit()
 
         # Create flask session here with secret key based on username
-#        if 'username' not in session:
-#            session['username'] = username
+        if 'username' not in session:
+            session['username'] = username
 
         # Return response
         location = "/users/%s" % user_obj.userid
@@ -409,37 +413,6 @@ class UsersAPI(Resource):
 
 
 
-class UsrIdeaRtAPI(Resource):
-
-    # GET /user/ideas/{ideaid}/result
-    @basic_auth.required
-    def get(self, ideaid):
-        """Get result for taker of this  idea"""
-        logs.debug_ ("_________________________________________________")
-        logs.debug_ ("UsrIdeaRtAPI get fn: %s" %(request))
-
-        userid, username = utls.get_user_from_hdr()
-        if 'username' not in session:
-            response = handle_invalid_usage(InvalidUsageException
-                        ('Error: No active session for this user found', 
-                         status_code=404))
-            return response
-
-        # Find idea result for session
-        query_obj = models.User.query.filter_by(userid=userid).first()
-        result = query_obj.qzscore
-
-        # Return response
-        logs.debug_ ("Json response")
-        logs.debug_ ("=============\n")
-        logs.debug_ ("{\'result\':%s}\n" %(result))
-        response = jsonify (result=result)
-        response.status_code = 200
-        utls.display_tables()
-        logs.info_(response)
-        return response
-
-
 class SessionAPI(Resource):
     """ Class that defines methods for processing del requests 
         for /session endpoint -mainly to delete sessions
@@ -452,6 +425,7 @@ class SessionAPI(Resource):
         logs.debug_ ("_________________________________________________")
         logs.debug_ ("SessionAPI del fn: %s" %(request.url))
 
+        import pdb; pdb.set_trace()
         # Pop user from session
         userid, username = utls.get_user_from_hdr()
         if 'username' not in session:
@@ -475,9 +449,10 @@ if __name__ == '__main__':
     #Initial config for db, this can be disabled
     models.db_init()
 
-    #utls.display_tables()
+    utls.display_tables()
     app.debug = True
 
     #app.run('192.168.33.10', 5001)
-    app.run('127.0.0.1', 5003)
+    import pdb; pdb.set_trace()
+    app.run('127.0.0.1', 5004)
 

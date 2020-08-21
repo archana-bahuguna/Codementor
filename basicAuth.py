@@ -34,13 +34,15 @@ def send_authenticate_req():
     response.location = '/users'
     return response
 
-def login_required(f):
+def required(f):
     """Decorator fn that authenticates user/admin """
     @wraps(f) #this fn allows the doc strings of dec fn to be displayed
     def auth_decorator(*args, **kwargs):
         # get username password from HTTP Basic Authentication header in 
         # request- Authorization: 'Basic username:password'
         logs.debug_( "\n-------basicauth.py; login required------\n")
+
+        import pdb; pdb.set_trace()
         auth = request.headers.get('Authorization')
         if not auth:
             return send_authenticate_req()

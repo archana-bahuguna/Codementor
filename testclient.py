@@ -9,13 +9,13 @@
 
 import json
 import requests
-#url = 'http://127.0.0.1:5003/users'
-headers = {'Content-Type': 'application/json'} 
+url = 'http://127.0.0.1:5004/users'
+#headers = {'Content-Type': 'application/json'} 
 
-url = 'http://127.0.0.1:5003/1/ideas/2'
+#url = 'http://127.0.0.1:5003/1/ideas'
 #url = 'http://192.168.33.10:5001/session'
 #headers = {'Content-Type': 'application/json', 'Authorization': 'Basic Archana:mypwd'} 
-#headers = {'Content-Type': 'application/json', 'Authorization': 'Basic Archana:mypwd role:user', 'Cookie': 'session=eyJ1c2VybmFtZSI6IkFyY2hhbmEifQ.Bp8e4A.l40yxekkA0RR_8Zyebq226FBrkM; HttpOnly; Path=/'}
+headers = {'Content-Type': 'application/json', 'Authorization': 'Basic User1:pwd123', 'Cookie': 'session=eyJ1c2VybmFtZSI6IkFyY2hhbmEifQ.Bp8e4A.l40yxekkA0RR_8Zyebq226FBrkM; HttpOnly; Path=/'}
 
 # Make a POST request to create a user in the database.
 #With Auth
@@ -45,14 +45,12 @@ url = 'http://127.0.0.1:5003/1/ideas/2'
 
 # Make a GET request for the entire collection.
 response = requests.get(url, headers=headers)
-print response
 
 
 #response = requests.delete(url, headers=headers)
-'''
 # Make a DEL request for the entire collection.
-response = requests.delete(url, headers=headers)
-'''
+#response = requests.delete(url, headers=headers)
+
    #print '\n_____________________Response received___________________\n'
    #print '\nJson response:\n==============\n Status code:%i  Reason: %s' %(response.status_code, response.reason)
    #print '\nResponse:\n==============\n%s' %(response.json())
