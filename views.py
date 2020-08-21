@@ -4,7 +4,7 @@
 #   ----------    -------      ----------       ----------------
 #   views.py      8/21/20       Arch        View fns for ideaapis
 #
-#  Handles HTTP requests/JSON for a ideaslists restful API service using
+#  Handles HTTP requests/JSON for a ideas restful API service using
 #  Flask/SQLAlchemy. 
 #  Flask session, basic authentication are
 #  implemented , Flask bcrypt is used for password encryption.
@@ -55,7 +55,7 @@ def handle_invalid_usage(error):
     
 class UserIdeasAPI(Resource):
     """ Class that defines methods for processing get/post requests 
-        for /api/ideaslists endpoint 
+        for /api/ideas endpoint 
     """
 
     def __init__(self):
@@ -75,21 +75,25 @@ class UserIdeasAPI(Resource):
         super(UserIdeasAPI, self).__init__()
 
 
-    # GET /admin/ideaslists
+    # GET /user/ideas
     @basic_auth.required
     def get(self):
-        """Get all ideaslists"""
+        """Get all ideas"""
+
+        import pdb; pdb.set_trace()
+
+
         logs.debug_ ("_______________________________________________")
         logs.debug_ ("IdeasAPI get fn: %s" %(request))
 
-        # Query ideaslists for this admin from idea table
-        # Should that be the case or should admin be able to see
-        # other ideaslists as well
+        # Query ideas for this user from idea table
+        # Should that be the case or should user be able to see
+        # other ideas as well
         userid, username = utls.get_user_from_hdr()
         query_obj = models.Idea.query.filter_by(userid=userid).all()
         if not query_obj:
             response = handle_invalid_usage(InvalidUsageException
-                                ('Error: No ideaslists found', status_code=404))
+                                ('Error: No ideas found', status_code=404))
             return response
         if 'username' not in session:
             response = handle_invalid_usage(InvalidUsageException
@@ -103,15 +107,16 @@ class UserIdeasAPI(Resource):
         resource_fields['title']=fields.String 
         resource_fields['desc']=fields.String 
         resource_fields['score'] =fields.String 
+        resource_fields['userid'] =fields.Integer 
 
-        ideaslists = marshal(query_obj, resource_fields)
-        response = jsonify(ideaslists=ideaslists)
+        ideas = marshal(query_obj, resource_fields)
+        response = jsonify(ideas=ideas)
         response.status_code = 200
         logs.info_(response)
         utls.display_tables()
         return response
 
-    # POST /admin/ideaslists
+    # POST /user/ideas
     @basic_auth.required
     def post(self):
         """Add new idea"""
@@ -144,7 +149,7 @@ class UserIdeasAPI(Resource):
         models.db.session.commit()
         
         # Return response
-        location = "/ideaslists/%s" % idea_obj.ideaid
+        location = "/ideas/%s" % idea_obj.ideaid
         query_obj = models.Idea.query.filter_by(ideaid=idea_obj.ideaid).all()
 
         resource_fields =  {'ideaid':fields.Integer, 
@@ -164,7 +169,7 @@ class UserIdeasAPI(Resource):
 
 class UserIdeaAPI(Resource):
     """ Class that defines methods for processing get/patch/del requests 
-        for /api/ideaslists/<ideaid> endpoint 
+        for /api/ideas/<ideaid> endpoint 
     """
 
     def __init__(self):
@@ -180,7 +185,7 @@ class UserIdeaAPI(Resource):
                              help="text", location='json')
         super(UserIdeaAPI, self).__init__()
 
-    # GET  /admin/ideaslists/{ideaid}
+    # GET  /user/ideas/{ideaid}
     @basic_auth.required
     def get(self, ideaid):
         """Get idea details"""
@@ -223,7 +228,7 @@ class UserIdeaAPI(Resource):
         logs.info_(response)
         return response
 
-    # PATCH /admin/ideaslists/{ideaid}
+    # PATCH /user/ideas/{ideaid}
     @basic_auth.required
     def patch(self, ideaid):
         """Edit idea details"""
@@ -283,7 +288,7 @@ class UserIdeaAPI(Resource):
         utls.display_tables()
         return response
 
-    # DELETE  /admin/ideaslists/{ideaid}
+    # DELETE  /user/ideas/{ideaid}
     @basic_auth.required
     def delete(self, ideaid):
         """Delete idea"""
@@ -348,6 +353,8 @@ class UsersAPI(Resource):
     # POST /users
     def post(self):
         """Login already existing user or add new user"""
+        print "-------Hello"
+        import pdb; pdb.set_trace()
         logs.debug_ ("_________________________________________________")
         logs.debug_ ("UserAPI post fn: %s\nJson Request\n=============\n %s" %(request, request.json))
 
@@ -363,7 +370,7 @@ class UsersAPI(Resource):
 
         # Check and Update tables
         # This is implemented as if we are processing get /users
-        user_obj = models.User.query.filter_by(username=username).all()
+        user_obj = models.User.query.filter_by(username=username).first()
         user_index = None
         for i in range(len(user_obj)):
             if username in user_obj[i].username:
@@ -404,7 +411,7 @@ class UsersAPI(Resource):
 
 class UsrIdeaRtAPI(Resource):
 
-    # GET /user/ideaslists/{ideaid}/result
+    # GET /user/ideas/{ideaid}/result
     @basic_auth.required
     def get(self, ideaid):
         """Get result for taker of this  idea"""
@@ -457,8 +464,8 @@ class SessionAPI(Resource):
         return 204
 
 
-api.add_resource(UserIdeasAPI, '/user/ideaslists')
-api.add_resource(UserIdeaAPI, '/user/ideaslists/<int:ideaid>')
+api.add_resource(UserIdeasAPI, '/user/ideas')
+api.add_resource(UserIdeaAPI, '/user/ideas/<int:ideaid>')
 
 api.add_resource(UsersAPI, '/users')
 api.add_resource(SessionAPI, '/session')
