@@ -38,7 +38,7 @@ def serialize_to_json(fields, query_result, a=0):
     return result
 
 def display_tables():
-    """ Displays db table entries after processing request 
+    """ Displays db table entries after processing request """
     prompt = '__________________________________________\n'\
              'To view tables enter Yes/yes/y/No/no/n:'
     #i = raw_input(prompt)
@@ -54,7 +54,7 @@ def display_tables():
         logs.debug_ ('\n------------------------------------------'\
                      '-----------------')
 
-        qry = models.Quiz.query.all()
+        qry = models.Idea.query.all()
         logs.debug_ ('Quiz Table\n=============:\nQzid  Title     '\
                  '    Difficulty Level   Text                Userid  No Ques\n')
         for i in qry:
@@ -62,20 +62,6 @@ def display_tables():
         logs.debug_ ('\n--------------------------------------------'
                 '--------------')
 
-        qry = models.Question.query.all()
-        logs.debug_ ('Questions Table\n================:\nQid Qzid      QText'\
-                      'Ans Text   Userid\n')
-        for i in qry:
-            logs.debug_ (i)
-        logs.debug_ ('\n------------------------------------------------------')
-
-        qry = models.Anschoice.query.all()
-        logs.debug_ ('Ans Choices Table\n================:\nAnsid  Qzid'
-                     '  Qid         Choices                          Correct\n')
-        for i in qry:
-            logs.debug_ (i)
-        logs.debug_ ('\n------------------------------------------------------')
     else:
         pass
-"""
     return None

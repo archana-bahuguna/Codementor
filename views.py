@@ -468,9 +468,9 @@ if __name__ == '__main__':
     #Initial config for db, this can be disabled
     models.db_init()
 
-    utls.display_tables()
+    #utls.display_tables()
     app.debug = True
 
     #app.run('192.168.33.10', 5001)
-    app.run('127.0.0.1', 5001)
+    app.run('127.0.0.1', 5003)
 
