@@ -29,8 +29,6 @@ api = Api(app)
 
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
-import pdb; pdb.set_trace()
-
 class InvalidUsageException(Exception):
     """ Handles exceptions not caught by framework and sends response
     """
@@ -76,14 +74,12 @@ class UserIdeasAPI(Resource):
                                    location='json')
         super(UserIdeasAPI, self).__init__()
 
-        import pdb; pdb.set_trace()
 
     # GET /user/ideas
 #    @basic_auth.required
     def get(self):
         """Get all ideas"""
 
-        import pdb; pdb.set_trace()
 
 
         logs.debug_ ("_______________________________________________")
@@ -195,7 +191,6 @@ class UserIdeaAPI(Resource):
         logs.debug_ ("_________________________________________________")
         logs.debug_ ("IdeaAPI get fn: %s" %(request))
 
-        import pdb; pdb.set_trace()
         # Check if user is auth to get details of this idea
         userid, username = utls.get_user_from_hdr()
         query_obj = models.Idea.query.filter_by(ideaid=ideaid).first()
@@ -358,7 +353,6 @@ class UsersAPI(Resource):
     def post(self):
         """Login already existing user or add new user"""
         print "-------Hello"
-        import pdb; pdb.set_trace()
         logs.debug_ ("_________________________________________________")
         logs.debug_ ("UserAPI post fn: %s\nJson Request\n=============\n %s" %(request, request.json))
 
@@ -425,7 +419,6 @@ class SessionAPI(Resource):
         logs.debug_ ("_________________________________________________")
         logs.debug_ ("SessionAPI del fn: %s" %(request.url))
 
-        import pdb; pdb.set_trace()
         # Pop user from session
         userid, username = utls.get_user_from_hdr()
         if 'username' not in session:
@@ -452,7 +445,5 @@ if __name__ == '__main__':
     utls.display_tables()
     app.debug = True
 
-    #app.run('192.168.33.10', 5001)
-    import pdb; pdb.set_trace()
     app.run('127.0.0.1', 5004)
 

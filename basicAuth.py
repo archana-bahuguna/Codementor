@@ -42,7 +42,6 @@ def required(f):
         # request- Authorization: 'Basic username:password'
         logs.debug_( "\n-------basicauth.py; login required------\n")
 
-        import pdb; pdb.set_trace()
         auth = request.headers.get('Authorization')
         if not auth:
             return send_authenticate_req()

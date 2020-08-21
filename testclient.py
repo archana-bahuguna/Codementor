@@ -9,7 +9,7 @@
 
 import json
 import requests
-url = 'http://127.0.0.1:5004/users'
+url = 'http://192.168.1.4:5005/users/2'
 #headers = {'Content-Type': 'application/json'} 
 
 #url = 'http://127.0.0.1:5003/1/ideas'
