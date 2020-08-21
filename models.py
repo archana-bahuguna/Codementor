@@ -28,11 +28,9 @@ class User(db.Model):
     username  = db.Column(db.String)
     password  = db.Column(db.String)
 
-    users = db.relationship("User", backref = "Idea")
 
 
     def __init__ (self, username, password):
-        self.userid = userid
         self.username = username
         self.password = password
 
@@ -47,8 +45,9 @@ class Idea(db.Model):
     text    = db.Column(db.String(80))
     userid  = db.Column(db.Integer, db.ForeignKey('user.userid'))
 
+    users = db.relationship("User", backref = "Idea")
+
     def __init__ (self, title, score, text, userid):
-        self.ideaid = ideaid
         self.title = title
         self.score = score
         self.text = text
@@ -67,51 +66,27 @@ def db_init():
     #subsequent runs. If db_init is not called this can be removed.
     #this can also be called at the end of this fn
     db.drop_all()
-
+"""
     db.create_all()
 
     #populate User table
-    admin1 = User("Archana", bcrypt.generate_password_hash("mypwd"), "admin")
-    db.session.add(admin1)
-    db.session.commit()
-    user1 = User("User1", bcrypt.generate_password_hash("upwd"), "user")
+    user1 = User("User1", bcrypt.generate_password_hash("pwd123"))
     db.session.add(user1)
     db.session.commit()
-    user2 = User("User2", bcrypt.generate_password_hash("u2pwd"), "user")
+    user2 = User("User2", bcrypt.generate_password_hash("abc123"))
     db.session.add(user2)
     db.session.commit()
 
-    #populate Quiz table
-    qz1 = Quiz( "Python Basics  ", "Simple  ", "Explanation", 1, 2)
-    qz2 = Quiz( "Python Advanced", "Moderate", "No text    ", 1)
-    db.session.add(qz1)
-    db.session.add(qz2)
+    #populate idea table
+    idea1 = Idea( "Project ", "Ease", "Build a creative project for happiness", user1)
+    idea2 = Idea( "Project2", "Impact", "Build a Game from raspberrypi", user1)
+    idea3 = Idea( "Project3", "Confidence", "Build a Puzzle", user2)
+    idea4 = Idea( "Project4", "Impact", "Create a computer sc lesson with analogy of pizza", user2)
+    db.session.add(idea1)
     db.session.commit()
-
-    #populate Questions table
-    ques1 = Question("What does 'def foo(): pass do", 
-                      "A fn which does nothing",1,1)
-    ques2 = Question("Is python an OOP l           ", 
-                      "Yes python is an OOP l",1,1)
-    db.session.add(ques1)
-    db.session.add(ques2)
+    db.session.add(idea2)
     db.session.commit()
-
-    #populate Answer choices table
-    ans1  = Anschoice(1, 1, "a. This function does nothing      ", True)
-    ans2  = Anschoice(1, 1, "b. This function returns a fn pass ", False)
-    ans3  = Anschoice(1, 1, "c. This function is not yet defined", False)
-    ans4  = Anschoice(1, 2, "a. Yes Python is object oriented   ", True)
-    ans5  = Anschoice(1, 2, "b. No Python is not object oriented", False)
-    ans6  = Anschoice(1, 2, "c. Python may not be used as OOP l ", True)
-    db.session.add(ans1)
-    db.session.add(ans2)
-    db.session.add(ans3)
-    db.session.add(ans4)
-    db.session.add(ans5)
-    db.session.add(ans6)
-    db.session.commit()
-
     return None
+"""
 
 

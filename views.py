@@ -456,11 +456,9 @@ class SessionAPI(Resource):
         utls.display_tables()
         return 204
 
-api.add_resource(UserIdeasAPI, '/admin/ideaslists')
-api.add_resource(UserIdeaAPI, '/admin/ideaslists/<int:ideaid>')
 
-api.add_resource(UsrIdeasAPI, '/user/ideaslists')
-api.add_resource(UsrIdeaAPI, '/user/ideaslists/<int:ideaid>')
+api.add_resource(UserIdeasAPI, '/user/ideaslists')
+api.add_resource(UserIdeaAPI, '/user/ideaslists/<int:ideaid>')
 
 api.add_resource(UsersAPI, '/users')
 api.add_resource(SessionAPI, '/session')
@@ -473,5 +471,6 @@ if __name__ == '__main__':
     utls.display_tables()
     app.debug = True
 
-    app.run('192.168.33.10', 5001)
+    #app.run('192.168.33.10', 5001)
+    app.run('127.0.0.1', 5001)
 
