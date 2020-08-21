@@ -13,16 +13,18 @@
 
 import os, logging
 from flask import Flask, request, json, jsonify, session
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.restful import Api, Resource, reqparse, fields, marshal
-from flask.ext.bcrypt import Bcrypt
+from flask_sqlalchemy import SQLAlchemy
+from flask_restful import Api, Resource, reqparse, fields, marshal
+from flask_bcrypt import Bcrypt
 import models 
 import utls 
-import basicauth 
+from flask_basicauth import BasicAuth 
 import logs 
+
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
+basic_auth = BasicAuth(app)
 api = Api(app)
 
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
@@ -74,7 +76,7 @@ class UserIdeasAPI(Resource):
 
 
     # GET /admin/ideaslists
-    @basicauth.login_required
+    @basic_auth.required
     def get(self):
         """Get all ideaslists"""
         logs.debug_ ("_______________________________________________")
@@ -110,7 +112,7 @@ class UserIdeasAPI(Resource):
         return response
 
     # POST /admin/ideaslists
-    @basicauth.login_required
+    @basic_auth.required
     def post(self):
         """Add new idea"""
         logs.debug_ ("_________________________________________________")
@@ -179,7 +181,7 @@ class UserIdeaAPI(Resource):
         super(UserIdeaAPI, self).__init__()
 
     # GET  /admin/ideaslists/{ideaid}
-    @basicauth.login_required
+    @basic_auth.required
     def get(self, ideaid):
         """Get idea details"""
         logs.debug_ ("_________________________________________________")
@@ -222,7 +224,7 @@ class UserIdeaAPI(Resource):
         return response
 
     # PATCH /admin/ideaslists/{ideaid}
-    @basicauth.login_required
+    @basic_auth.required
     def patch(self, ideaid):
         """Edit idea details"""
         logs.debug_ ("_________________________________________________")
@@ -282,7 +284,7 @@ class UserIdeaAPI(Resource):
         return response
 
     # DELETE  /admin/ideaslists/{ideaid}
-    @basicauth.login_required
+    @basic_auth.required
     def delete(self, ideaid):
         """Delete idea"""
         logs.debug_ ("_________________________________________________")
@@ -403,7 +405,7 @@ class UsersAPI(Resource):
 class UsrIdeaRtAPI(Resource):
 
     # GET /user/ideaslists/{ideaid}/result
-    @basicauth.login_required
+    @basic_auth.required
     def get(self, ideaid):
         """Get result for taker of this  idea"""
         logs.debug_ ("_________________________________________________")
@@ -437,7 +439,7 @@ class SessionAPI(Resource):
     """
 
     # DELETE  /session (used to delete sessions)
-    @basicauth.login_required
+    @basic_auth.required
     def delete(self):
         """Delete session"""
         logs.debug_ ("_________________________________________________")
